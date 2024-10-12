@@ -1,8 +1,8 @@
 import tkinter as tk
 import os
-from tkinter import Tk, Label, Button, Entry, END
+from tkinter import Tk, Label, Button, Entry,Toplevel, END
 from PIL import Image, ImageTk  
-import tkinter.messagebox as messagebox
+import tkinter.messagebox as messagebox #this is not needed after the change of the message box but we still have some not used lines with the message box so i left it here
 import random
 
 # main loop starts here
@@ -167,7 +167,34 @@ def secondscreen():
     nextbutton = Button(SaveMe, text="Next", borderwidth=0, highlightthickness=0, command=nextinsecond,
                         bg="#1C1C1E", fg="white", width=10, height=2, font=("Helvetica", 20))
     nextbutton.place_forget() 
+def custom_message_box(title, message): # deffining a new message box
+    msg_box = Toplevel()
+    msg_box.title(title)
+    msg_box.geometry("400x200")  # Set size of the message box
+    msg_box.configure(bg="#1C1C1E")  # Set background color
+    # Get the screen width and height
+    screen_width = msg_box.winfo_screenwidth()
+    screen_height = msg_box.winfo_screenheight()
 
+    # Calculate the position to center the window
+    x_position = (screen_width / 2) - (400 / 2)
+    y_position = (screen_height / 2) - (200 / 2)
+
+    # Position the window at the calculated center point
+    msg_box.geometry(f"400x200+{int(x_position)}+{int(y_position)}")
+    # Create a label for the message title
+    title_label = Label(msg_box, text=title, font=("Helvetica", 20, "bold"), fg="white", bg="#1C1C1E")
+    title_label.pack(pady=10)
+    # Create a label for the message body
+    message_label = Label(msg_box, text=message, font=("Helvetica", 16), fg="white", bg="#1C1C1E", wraplength=350)
+    message_label.pack(pady=10)
+    # Create a button to close the custom message box
+    ok_button = Button(msg_box, text="OK", command=msg_box.destroy, font=("Helvetica", 14), bg="#1C1C1E", fg="white", width=10)
+    ok_button.pack(pady=10)
+    # Center the window
+    msg_box.grab_set()
+    msg_box.transient()
+    msg_box.wait_window()
 
 def thirdscreen():
     # quest 1 : solve the riddle
@@ -194,10 +221,10 @@ def thirdscreen():
         userans = answer.get().strip().upper()
 
         if userans == "5" or userans == "FIVE":
-            messagebox.showinfo("Correct!", "You've solved the riddle!")
+            custom_message_box("Correct!", "You've solved the riddle!")
             correct()  
         else:
-            messagebox.showerror("Incorrect", "Incorrect answer. Try again!")
+            custom_message_box("Incorrect", "Incorrect answer. Try again!")
             giveup.place(relx=0.5, rely=0.5, anchor="center")  
 
     def correct():
@@ -251,15 +278,15 @@ def fourthscreen():
         options = ["Rock", "Paper", "Scissors"]
         mannequin = random.choice(options)
         if mannequin == choice:
-            messagebox.showinfo("DRAW!","You and the mannequin made the same choice")
+            custom_message_box("DRAW!","You and the mannequin made the same choice")
             try_Again()
         elif (choice == "Rock" and mannequin == "Scissors") or \
                 (choice == "Scissors" and mannequin == "Paper") or \
                 (choice == "Paper" and mannequin == "Rock"):
-            messagebox.showinfo("WIN!","Congrats! You WIN this round!")
+            custom_message_box("WIN!","Congrats! You WIN this round!")
             nexxt()
         else:
-            messagebox.showwarning("Defeat!","You lost this round. Better luck next time!")
+            custom_message_box("Defeat!","You lost this round. Better luck next time!")
             nexxt()
 
     def rockpapsci():
@@ -384,7 +411,7 @@ def fifthscreen():
         nonlocal guess, guess_history, code
 
         if len(guess_code) != 4 or not guess_code.isdigit():
-            messagebox.showwarning("Invalid", "Enter a valid 4-digit code.")
+            custom_message_box("Invalid", "Enter a valid 4-digit code.")
             return
 
         guess += 1
@@ -395,10 +422,10 @@ def fifthscreen():
         # res.place(x=350, y=450)
 
         if bulls == 4:
-            messagebox.showinfo("GUESSED IT!", f"You guessed the code {code} in {guess} attempts!")
+            custom_message_box("GUESSED IT!", f"You guessed the code {code} in {guess} attempts!")
             sixthscreen()
         elif guess >= max_guess:
-            messagebox.showwarning("Better Luck :(", f"You've used all your {max_guess} attempts! The code was {code}.")
+            custom_message_box("Better Luck :(", f"You've used all your {max_guess} attempts! The code was {code}.")
             sixthscreen()
         else:
             # res.config(text=f"Bulls: {bulls} , Cows: {cows}")
@@ -482,12 +509,12 @@ def sixthscreen():
         def update():
             displaylabel.config(text=" ".join(display)) 
             if "_" not in display:  
-                messagebox.showinfo("CONGRATS!", "You guessed the word. Now you can read the Letter!")
+                custom_message_box("CONGRATS!", "You guessed the word. Now you can read the Letter!")
                 finalscreen()
                 # seventhscreen()
 
             if incorrect >= max:  
-                messagebox.showwarning("OOPS!", f"You will never know the contents of the letter! The word was '{secret_word}'.")
+                custom_message_box("OOPS!", f"You will never know the contents of the letter! The word was '{secret_word}'.")
                 finalscreen()
                 # seventhscreen()
 
@@ -501,11 +528,11 @@ def sixthscreen():
                 guessentry.delete(0, END)  
 
                 if len(letter) != 1 or not letter.isalpha():
-                    messagebox.showwarning("Invalid", "Enter a single alphabet.")
+                    custom_message_box("Invalid", "Enter a single alphabet.")
                     return
 
                 if letter in guessed:
-                    messagebox.showwarning("Guessed Before", f"You have guessed {letter} before.")
+                    custom_message_box("Guessed Before", f"You have guessed {letter} before.")
                     return
                 
                 guessed.append(letter)  
