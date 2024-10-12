@@ -9,7 +9,11 @@ import random
 def exit_fullscreen(event):
     SaveMe.attributes('-fullscreen', False)
     SaveMe.geometry("1000x1000")  # Restore to original size (1000x1000)
-
+def adjust_wrap_length():
+    # Dynamically adjust wraplength based on the current window width
+    current_width = SaveMe.winfo_width()  # Get the current width of the window
+    wrap_length = int(current_width * 0.8)  # Set wrap length to 80% of the window width
+    return wrap_length
 
 SaveMe = Tk()
 SaveMe.attributes('-fullscreen', True)
@@ -71,14 +75,14 @@ def firstscreen():
     # the story begins
     for widget in SaveMe.winfo_children():
         widget.destroy()
-
+    new_wrap_length = adjust_wrap_length()
     def yes():    
         yesbutton.destroy()
         nobutton.destroy()
         letter.config(text="""    The letter reads as follows:                  
         \"Dawn, if you are reading this, you've taken the first step on a journey I've long envisioned. 
          Hidden within those walls are truths waiting to be uncovered, and the key lies in your ability to decipher the clues....\"""",
-                             font=("Helvetica", 20), fg="white", bg="#1C1C1E",  wraplength=wrap_length, justify="center", padx=10, pady=10)  
+                             font=("Helvetica", 20), fg="white", bg="#1C1C1E",  wraplength=new_wrap_length, justify="center", padx=10, pady=10)  
         
         letter.place(relx=0.5, rely=0.4, anchor="center")  # Adjust rely for vertical positioning
         conbutton.place(relx=0.5, rely=0.9, anchor="s")  # Center the button
@@ -91,7 +95,7 @@ def firstscreen():
 
     letter = Label(SaveMe, text="""*You are dawn*
     You have received a letter. Click yes to continue.""", 
-                         font=("Helvetica", 20), fg="white", bg="#1C1C1E", wraplength=wrap_length, justify="center", padx=10, pady=10)  
+                         font=("Helvetica", 20), fg="white", bg="#1C1C1E", wraplength=new_wrap_length, justify="center", padx=10, pady=10)  
     letter.place(relx=0.5, rely=0.4, anchor="center")
 
     yesbutton = Button(SaveMe, text="Yes", borderwidth=0, highlightthickness=0, command=yes, 
@@ -107,7 +111,7 @@ def secondscreen():
     # visiting the mansion and the initial quest is mentioned
     for widget in SaveMe.winfo_children():
         widget.destroy()
-
+    new_wrap_length = adjust_wrap_length()
     def proceed():
         conbutton.place_forget()
         quitbutton.place_forget()
@@ -128,7 +132,7 @@ def secondscreen():
                                 Dawn: There...are...others?
                          
                                 Guard: That is all I have to say to you. Good luck. What awaits on the other end is for you to find out.""",
-                             font=("Helvetica", 20), fg="white", bg="#1C1C1E",wraplength=wrap_length, justify="center", padx=10, pady=10)
+                             font=("Helvetica", 20), fg="white", bg="#1C1C1E",wraplength=new_wrap_length, justify="center", padx=10, pady=10)
         secondlabel.place(relx=0.5, rely=0.4, anchor="center")
 
         nextbutton.place(relx=0.5, rely=0.9, anchor="s")
@@ -138,7 +142,7 @@ def secondscreen():
                          But before you know it, the door shuts on you and you're stuck there. 
                          You stumble across a message on the wall which reads:
                             "Solve the riddle if you want to see yourself out. This is your first quest." *""",
-                         font=("Helvetica", 20), fg="white", bg="#1C1C1E", wraplength=wrap_length, justify="center", padx=10, pady=10)
+                         font=("Helvetica", 20), fg="white", bg="#1C1C1E", wraplength=new_wrap_length, justify="center", padx=10, pady=10)
         secondlabel.place(relx=0.5, rely=0.3, anchor="center")
         nextbutton.config(command=thirdscreen)
         nextbutton.place(relx=0.5, rely=0.9, anchor="s")
@@ -149,7 +153,7 @@ def secondscreen():
     secLabel = Label(SaveMe, image=hauntedImage, background="#1C1C1E", height=1000, width=1000)
     secLabel.place(x=0, y=0, relwidth=1, relheight=1)  
 
-    secondlabel = Label(SaveMe, text="*You don't know who the sender was. Do you still want to proceed with it?*", font=("Helvetica", 20), fg="white", bg="#1C1C1E")
+    secondlabel = Label(SaveMe, text="*You don't know who the sender was. Do you still want to proceed with it?*", font=("Helvetica", 20), fg="white", bg="#1C1C1E",wraplength=new_wrap_length,)
     secondlabel.place(relx=0.4, rely=0.2, anchor="center")
 
     conbutton = Button(SaveMe, text="Continue", borderwidth=0, highlightthickness=0, command=proceed,
@@ -169,7 +173,7 @@ def thirdscreen():
     # quest 1 : solve the riddle
     for widget in SaveMe.winfo_children():
         widget.destroy()
-
+    new_wrap_length = adjust_wrap_length()
     thiLabel = Label(SaveMe, image=room4Image, background="#1C1C1E", height=1000, width=1000)
     thiLabel.place(x=0, y=0, relwidth=1, relheight=1)  
 
@@ -177,7 +181,7 @@ def thirdscreen():
      The paper reads:
      "Elsa has four daughters, and each of her daughters has a brother. 
       How many children does Elsa have?" """
-     ,font=("Helvetica", 20), fg="white", bg="#1C1C1E", wraplength=wrap_length)
+     ,font=("Helvetica", 20), fg="white", bg="#1C1C1E", wraplength=new_wrap_length)
     thirdlabel.place(relx=0.5, rely=0.2, anchor="center")
 
     nlabel = Label(SaveMe, text="Enter your answer here:", font=("Helvetica", 20), fg="white", bg="#1C1C1E")
@@ -202,7 +206,7 @@ def thirdscreen():
 
         correctlabel = Label(SaveMe, text="""You have successfully solved this riddle.
         The door will open for you now.
-        This journey awaits more such Quests. Can you solve them?""", font=("Helvetica", 20), fg="white", bg="#1C1C1E", wraplength=wrap_length)
+        This journey awaits more such Quests. Can you solve them?""", font=("Helvetica", 20), fg="white", bg="#1C1C1E", wraplength=new_wrap_length)
         correctlabel.place(relx=0.5, rely=0.5, anchor="center")
 
         nextbutton = Button(SaveMe, text="Next", borderwidth=2, highlightthickness=2, command=fourthscreen, # temporary solution 
@@ -214,7 +218,7 @@ def thirdscreen():
             widget.place_forget()
 
         incorrectlabel = Label(SaveMe, text="""You have failed to solve this riddle.
-         We will let you go this time, but better luck next time!""", font=("Helvetica", 20), fg="white", bg="#1C1C1E", wraplength=wrap_length)
+         We will let you go this time, but better luck next time!""", font=("Helvetica", 20), fg="white", bg="#1C1C1E", wraplength=new_wrap_length)
         incorrectlabel.place(relx=0.5, rely=0.5, anchor="center")
 
         nextbutton = Button(SaveMe, text="Next", borderwidth=2, highlightthickness=2, command=fourthscreen,# temporary solution 
@@ -237,10 +241,10 @@ def fourthscreen():
         widget.destroy()
     four = Label(SaveMe, image=room2Image, background="#1C1C1E", height=1000, width=1000)
     four.place(x=0, y=0, relwidth=1, relheight=1) 
-
+    new_wrap_length = adjust_wrap_length()
     fourthlabel = Label(SaveMe, text="""* You end in a completely different hallway and realise there is no escaping this.
      You will need to solve each quest as it is and each awaits a quest here. 
-     You enter the next room and stumble across a mannequin with a label which goes "Ready for Rock, Paper and Scissors?"* """, font=("Helvetica", 20), fg="white", bg="#1C1C1E", wraplength=wrap_length, justify="center", padx=10, pady=10)
+     You enter the next room and stumble across a mannequin with a label which goes "Ready for Rock, Paper and Scissors?"* """, font=("Helvetica", 20), fg="white", bg="#1C1C1E", wraplength=new_wrap_length, justify="center", padx=10, pady=10)
     fourthlabel.place(relx=0.5, rely=0.4, anchor="center")
     
     def play(choice):
@@ -340,10 +344,10 @@ def fifthscreen():
         widget.destroy()
     fif = Label(SaveMe, image=room3Image, background="#1C1C1E", height=1000, width=1000)
     fif.place(x=0, y=0, relwidth=1, relheight=1)
-
+    new_wrap_length = adjust_wrap_length()
     fifthlabel = Label(SaveMe, text=""" Are you ready to play a round of BULLS AND COWS? 
      Guess the secret 4 digit code and open the box""",
-     font=("Helvetica", 20), fg="white", bg="#1C1C1E", wraplength=wrap_length)
+     font=("Helvetica", 20), fg="white", bg="#1C1C1E", wraplength=new_wrap_length)
     fifthlabel.place(relx=0.5, rely=0.2, anchor="center")
 
     def generate_code():
@@ -437,7 +441,7 @@ def sixthscreen():
         widget.destroy()
     six = Label(SaveMe, image=room1Image, background="#1C1C1E", height=1000, width=1000)
     six.place(x=0, y=0, relwidth=1, relheight=1)
-
+    new_wrap_length = adjust_wrap_length()
     sixlabel = Label(SaveMe, text="""*You find a key inside the box and figure out it unlocks a door in this room.
                      You open the door and you find a letter hanging from the ceiling near a candle. You hear a voice*
                      
@@ -448,7 +452,7 @@ def sixthscreen():
                      
                      Dawn: "Is it sort of a HANGMAN game."
 
-                     Voice: "Smart guess! Now Goodluck." """, font=("Helvetica", 20), fg="white", bg="#1C1C1E", wraplength=wrap_length)
+                     Voice: "Smart guess! Now Goodluck." """, font=("Helvetica", 20), fg="white", bg="#1C1C1E", wraplength=new_wrap_length)
     sixlabel.place(relx=0.5, rely=0.3, anchor="center")
 
     word_list = ["HACKNIGHT" , "ACM" , "MAAYA" , "QUADRANGLE" , "RIYAL" ]  
@@ -542,7 +546,7 @@ def sixthscreen():
     yesbutton.place(relx=0.1, rely=0.9, anchor="sw")
     nobutton = Button(SaveMe, text="No", borderwidth=0, highlightthickness=0, command=skipp, 
                        bg="#1C1C1E", fg="white", width=10, height=2, font=("Helvetica", 14))
-    nobutton.place(relx=0.9, rely=0.9, anchor="sw")
+    nobutton.place(relx=0.9, rely=0.9, anchor="se")
 
 
 # def seventhscreen():
