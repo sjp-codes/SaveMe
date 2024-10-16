@@ -10,7 +10,7 @@ SaveMe = Tk()
 SaveMe.geometry("1000x1000")
 SaveMe["background"]= "#1C1C1E"
 SaveMe.title("SaveMe")
-SaveMe.resizable(width=0, height=0)
+SaveMe.resizable(width=True, height=True)
 basedir = os.getcwd()  
 #____________________IMAGES_______________________
 sImage = Image.open(os.path.join(basedir, "assets", "sroom.png"))
