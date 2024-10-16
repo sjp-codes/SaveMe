@@ -15,7 +15,7 @@ Take the role of Aaron and save yourself by solving Quests and see where this le
 - Find issues you can help fix from the **Issues** tab!
 - Make a separate branch like `your-username` for example before making changes
 (Warning: your changes would **not** be considered if they are directly made on main/master branch)
-- Feel free to add in Issues as well
+- Feel free to add in Issues as well (bugs for example!)
 ---
 
 ### Saijyoti [ SJ ]
