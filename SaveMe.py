@@ -65,7 +65,7 @@ def firstscreen():
         nobutton.destroy()
         letter.config(text="""The letter reads as follows:
                             
-                            \"Dawn, if you are reading this, you've taken the first step on a journey I've long envisioned. 
+                            \"Aaron, if you are reading this, you've taken the first step on a journey I've long envisioned. 
             Hidden within those walls are truths waiting to be uncovered, and the key lies in your ability to decipher the clues....\"""",
                              font=("Helvetica", 14), fg="white", bg="#1C1C1E", wraplength=800)  
         
@@ -77,7 +77,7 @@ def firstscreen():
     sLabel = Label(SaveMe, image=sImage, background="#1C1C1E", height=1000, width=1000)
     sLabel.place(x=0, y=0, relwidth=1, relheight=1) 
 
-    letter = Label(SaveMe, text="""      *You are dawn*
+    letter = Label(SaveMe, text="""      *You are Aaron*
                    You have received a letter. Click yes to continue.""", 
                          font=("Helvetica", 18), fg="white", bg="#1C1C1E", wraplength=800)  
     letter.place(x=100, y=300)  
@@ -104,18 +104,18 @@ def secondscreen():
         
         secondlabel.config(text="""*You decided to visit the mansion and unravel the mystery surrounding the letter by yourself*
                          
-                                Dawn: This place is very spooky but I must find what awaits me here.
+                                Aaron: This place is very spooky but I must find what awaits me here.
                          
                                 *You see a guard who walks towards you. You are scared but regardless decide to talk to him*
                          
-                                Guard: You must be Dawn. Well, we were waiting for you.
+                                Guard: You must be Aaron. Well, we were waiting for you.
                                 Guard: This place houses secrets, and you must find them if you want to own it all by yourself.
                          
-                                Dawn: What do you mean by that?
+                                Aaron: What do you mean by that?
                          
                                 Guard: You will find out for yourself. 5 quests await you. Remember, you are not the only one.
                          
-                                Dawn: There...are...others?
+                                Aaron: There...are...others?
                          
                                 Guard: That is all I have to say to you. Good luck. What awaits on the other end is for you to find out.""",
                              font=("Helvetica", 14), fg="white", bg="#1C1C1E", wraplength=800)
@@ -432,7 +432,7 @@ def sixthscreen():
                      Voice:"Your next QUEST is to guess the word. 
                      If you fail to guess it, the letter will burn before you get to read the contents "
                      
-                     Dawn: "Is it sort of a HANGMAN game."
+                     Aaron: "Is it sort of a HANGMAN game."
 
                      Voice: "Smart guess! Now Goodluck." """, font=("Helvetica", 20), fg="white", bg="#1C1C1E", wraplength=800)
     sixlabel.place(x=100, y=200) 
@@ -466,12 +466,10 @@ def sixthscreen():
             if "_" not in display:  
                 messagebox.showinfo("CONGRATS!", "You guessed the word. Now you can read the Letter!")
                 finalscreen()
-                # seventhscreen()
 
             if incorrect >= max:  
                 messagebox.showwarning("OOPS!", f"You will never know the contents of the letter! The word was '{secret_word}'.")
                 finalscreen()
-                # seventhscreen()
 
             guessdisplay.config(text="Guessed Letters: " + ", ".join(guessed))
             guesslabel.config(text=f"Guess Remaining: {max - incorrect}")
@@ -517,8 +515,6 @@ def sixthscreen():
         skiplabel = Label(SaveMe, text="""You decided to skip this round. :( """, font=("Helvetica", 20), fg="white", bg="#1C1C1E", wraplength=800)
         skiplabel.place(x=100, y=200)
 
-        # nextbutton = Button(SaveMe, text="Next", borderwidth=0, highlightthickness=0, command=seventhscreen,
-        #                     bg="#1C1C1E", fg="white", width=10, height=2, font=("Helvetica", 14))
         nextbutton = Button(SaveMe, text="Next", borderwidth=0, highlightthickness=0, command=finalscreen,
                             bg="#1C1C1E", fg="white", width=10, height=2, font=("Helvetica", 14))
         nextbutton.place(x=450, y=500)
@@ -530,19 +526,7 @@ def sixthscreen():
                        bg="#1C1C1E", fg="white", width=10, height=2, font=("Helvetica", 14))
     nobutton.place(x=500, y=700)
 
-
-# def seventhscreen():
-#     # quest 5 : a difficult puzzle and maybe unique? sudoku? wordle?
-#     for widget in SaveMe.winfo_children():
-#         widget.destroy()
-#     seven = Label(SaveMe, image=room5Image, background="#1C1C1E", height=1000, width=1000)
-#     seven.place(x=0, y=0, relwidth=1, relheight=1)
-
-#     seventhlabel = Label(SaveMe, text="""*You search around the room and come across a paper*
-#                        The paper reads:
-#                        "Elsa has four daughters, and each of her daughters has a brother. 
-#                        How many children does Elsa have?" """, font=("Helvetica", 20), fg="white", bg="#1C1C1E")
-#     seventhlabel.place(x=100, y=200) 
+## Add the seventh scene here!
 
 
 def finalscreen():
@@ -555,10 +539,6 @@ def finalscreen():
     final = Label(SaveMe, text="""THE FINAL SCREEN. YOUR ENDING IS DECIDED HERE. """, font=("Helvetica", 20), fg="white", bg="#1C1C1E")
     final.place(x=100, y=200)
 
-    
-    # back_button = Button(SaveMe, text="Back to Start", command=startscreen, 
-    #                      bg="#1C1C1E", fg="white", width=15, height=2, font=("Helvetica", 14))
-    # back_button.pack(pady=20)
 
 startscreen()  
 SaveMe.mainloop()
