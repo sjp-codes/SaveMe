@@ -2,6 +2,8 @@
 
 A tkinter GUI based adventure game on Python. 
 Take the role of Aaron and save yourself by solving Quests and see where this leads you to!
+You get a letter addressed to you anonymously, so you visit to the mansion and solve riddles, play games like rock paper scissors, bulls and cows, and hangman, and guess words to determine your fate! Solve it all to read what your mystery letter holds!
+
 
 ## Requirements
 - **Python 3.x (preferably 3.6 or higher)**
@@ -19,3 +21,4 @@ Take the role of Aaron and save yourself by solving Quests and see where this le
 ---
 
 ### [Saijyoti [ SJ ]](https://github.com/sjp-codes)
+
