@@ -14,17 +14,20 @@ SaveMe.resizable(width=0, height=0)
 basedir = os.path.dirname(os.path.abspath(__file__))
 
 #________________IMAGES__________________
-sImage = Image.open(os.path.join(basedir, "assets", "sroom.png"))
+sImage = Image.open(os.path.join(basedir, "assets", "qmark.jpg"))
 sImage = sImage.resize((1000, 1000), Image.Resampling.LANCZOS)
 sImage = ImageTk.PhotoImage(sImage)
 
-hauntedImage = Image.open(os.path.join(basedir, "assets", "hauntedmansion.png"))
-hauntedImage = hauntedImage.resize((1000, 1000), Image.Resampling.LANCZOS)
+# Correcting hauntedImage (letter image)
+hauntedImage = Image.open(os.path.join(basedir, "assets", "letter.jpg"))
+hauntedImage = hauntedImage.resize((1000, 1000), Image.Resampling.LANCZOS)  # Fixed variable name
 hauntedImage = ImageTk.PhotoImage(hauntedImage)
 
-room1Image = Image.open(os.path.join(basedir, "assets", "room1.png"))
+# No need to change other image variables if they are correct
+room1Image = Image.open(os.path.join(basedir, "assets", "hauntedmansion1.jpg"))
 room1Image = room1Image.resize((1000, 1000), Image.Resampling.LANCZOS)
 room1Image = ImageTk.PhotoImage(room1Image)
+
 
 room2Image = Image.open(os.path.join(basedir, "assets", "room2.png"))
 room2Image = room2Image.resize((1000, 1000), Image.Resampling.LANCZOS)
@@ -52,9 +55,9 @@ def startscreen():
     sLabel = Label(SaveMe, image=sImage, background="#1C1C1E", height=1000, width=1000)
     sLabel.place(x=0, y=0, relwidth=1, relheight=1)  
     
-    sbutton = Button(SaveMe, text="BEGIN!", borderwidth=0, highlightthickness=0, command=firstscreen, 
-                     bg="#1C1C1E", fg="white", width=25, height=4, font=("Helvetica", 18))
-    sbutton.place(x=350, y=350)
+    sbutton = Button(SaveMe, text="CLICK TO BEGIN!", borderwidth=0, highlightthickness=0, command=firstscreen, 
+                     bg="#000000", fg="#cbfcc0", width=25, height=4, font=("Times New Roman", 24))
+    sbutton.place(x=270, y=400)
 
 def firstscreen():
     # the story begins
@@ -64,13 +67,13 @@ def firstscreen():
     def yes():    
         yesbutton.destroy()
         nobutton.destroy()
+        sLabel.config(image=hauntedImage) 
         letter.config(text="""The letter reads as follows:
-                            
-                            \"Aaron, if you are reading this, you've taken the first step on a journey I've long envisioned. 
+            "Aaron, if you are reading this, you've taken the first step on a journey I've long envisioned.\n
             Hidden within those walls are truths waiting to be uncovered, and the key lies in your ability to decipher the clues....\"""",
-                             font=("Helvetica", 14), fg="white", bg="#1C1C1E", wraplength=800)  
+                        font=("Times New Roman", 24), fg="white", bg="#1C1C1E", wraplength=800)  
         
-        conbutton.place(x=400, y=500)
+        conbutton.place(x=400, y=700) 
 
     def no():
         SaveMe.quit()
@@ -78,59 +81,62 @@ def firstscreen():
     sLabel = Label(SaveMe, image=sImage, background="#1C1C1E", height=1000, width=1000)
     sLabel.place(x=0, y=0, relwidth=1, relheight=1) 
 
-    letter = Label(SaveMe, text="""      *You are Aaron*
-                   You have received a letter. Click yes to continue.""", 
-                         font=("Helvetica", 18), fg="white", bg="#1C1C1E", wraplength=800)  
+    letter = Label(SaveMe, text="""You are Aaron. You have received a letter. Click yes to continue.""", 
+                    font=("Times New Roman", 24), fg="white", bg="#000000", wraplength=800)  
     letter.place(x=100, y=300)  
 
     yesbutton = Button(SaveMe, text="Yes", borderwidth=0, highlightthickness=0, command=yes, 
-                        bg="#1C1C1E", fg="white", width=10, height=2, font=("Helvetica", 14))
+                        bg="#000000", fg="white", width=10, height=2, font=("Times New Roman", 24))
     yesbutton.place(x=350, y=400)
 
     nobutton = Button(SaveMe, text="No", borderwidth=0, highlightthickness=0, command=no, 
-                       bg="#1C1C1E", fg="white", width=10, height=2, font=("Helvetica", 14))
+                       bg="#000000", fg="beige", width=10, height=2, font=("Times New Roman", 24))
     nobutton.place(x=500, y=400)
 
     conbutton = Button(SaveMe, text="Continue", borderwidth=0, highlightthickness=0, command=secondscreen,
-                             bg="#1C1C1E", fg="white", width=10, height=2, font=("Helvetica", 14))
+                       bg="#000000", fg="white", width=10, height=2, font=("Times New Roman", 24))
 
 def secondscreen():
     # visiting the mansion and the initial quest is mentioned
     for widget in SaveMe.winfo_children():
         widget.destroy()
 
-    def proceed():
-        conbutton.place_forget()
-        quitbutton.place_forget()
-        
-        secondlabel.config(text="""*You decided to visit the mansion and unravel the mystery surrounding the letter by yourself*
-                         
-                                Aaron: This place is very spooky but I must find what awaits me here.
-                         
-                                *You see a guard who walks towards you. You are scared but regardless decide to talk to him*
-                         
-                                Guard: You must be Aaron. Well, we were waiting for you.
-                                Guard: This place houses secrets, and you must find them if you want to own it all by yourself.
-                         
-                                Aaron: What do you mean by that?
-                         
-                                Guard: You will find out for yourself. 5 quests await you. Remember, you are not the only one.
-                         
-                                Aaron: There...are...others?
-                         
-                                Guard: That is all I have to say to you. Good luck. What awaits on the other end is for you to find out.""",
-                             font=("Helvetica", 14), fg="white", bg="#1C1C1E", wraplength=800)
+    sLabel = Label(SaveMe, image=room1Image, background="#1C1C1E", height=1000, width=1000)  # Update to mansion image
+    sLabel.place(x=0, y=0, relwidth=1, relheight=1)
 
-        nextbutton.place(x=450, y=800)
-    def nextinsecond():
-        nextbutton.place_forget()
-        secondlabel.config(text="""*While you were looking around the mansion, you stumble across a room which looks familiar. 
-                         But before you know it, the door shuts on you and you're stuck there. 
-                         You stumble across a message on the wall which reads:
-                            "Solve the riddle if you want to see yourself out. This is your first quest." *""",
-                         font=("Helvetica", 14), fg="white", bg="#1C1C1E", wraplength=800)
-        nextbutton.config(command=thirdscreen)
-        nextbutton.place(x=450, y=800)
+    secondlabel = Label(SaveMe, text="""You decided to visit the mansion and unravel the mystery surrounding the letter by yourself.
+                         
+        Aaron: This place is very spooky but I must find what awaits me here.
+                         
+        *You see a guard who walks towards you. You are scared but regardless decide to talk to him*
+                         
+        Guard: You must be Aaron. Well, we were waiting for you.
+        Guard: This place houses secrets, and you must find them if you want to own it all by yourself.
+                         
+        Aaron: What do you mean by that?
+                         
+        Guard: You will find out for yourself. 5 quests await you. Remember, you are not the only one.
+                         
+        Aaron: There...are...others?
+                         
+        Guard: That is all I have to say to you. Good luck. What awaits on the other end is for you to find out.""",
+                        font=("Times New Roman", 14), fg="white", bg="#1C1C1E", wraplength=800)
+    secondlabel.place(x=100, y=300) 
+
+    nextbutton = Button(SaveMe, text="Next", borderwidth=0, highlightthickness=0, command=nextinsecond,
+                        bg="#000000", fg="white", width=10, height=2, font=("Times New Roman", 24))
+    nextbutton.place(x=450, y=800)
+
+def nextinsecond():
+    nextbutton.place_forget()
+    secondlabel.config(text="""*While you were looking around the mansion, you stumble across a room which looks familiar. 
+                     But before you know it, the door shuts on you and you're stuck there. 
+                     You stumble across a message on the wall which reads:
+                        "Solve the riddle if you want to see yourself out. This is your first quest." *""",
+                     font=("Times New Roman", 14), fg="white", bg="#1C1C1E", wraplength=800)
+    nextbutton.config(command=thirdscreen)  # Set the next button's command
+    nextbutton.place(x=450, y=800)  # Place the "Next" button again
+
 
             
     def quitt():
