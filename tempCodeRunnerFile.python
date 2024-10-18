@@ -229,7 +229,7 @@ def fourthscreen():
                             You will need to solve each quest as it is and each awaits a quest here. 
                         You enter the next room and stumble across a mannequin with a label which goes "Ready for Rock, Paper and Scissors?"* 
                         """, font=("Helvetica", 20), fg="white", bg="#1C1C1E", wraplength=800)
-    fourthlabel.place(x=100, y=500)
+    fourthlabel.place(x=100, y=200)
     
     def play(choice):
         options = ["Rock", "Paper", "Scissors"]
@@ -435,7 +435,7 @@ def sixthscreen():
                      Aaron: "Is it sort of a HANGMAN game."
 
                      Voice: "Smart guess! Now Goodluck." """, font=("Helvetica", 20), fg="white", bg="#1C1C1E", wraplength=800)
-    sixlabel.place(x=100, y=400) 
+    sixlabel.place(x=100, y=200) 
 
     word_list = ["HACKNIGHT" , "ACM" , "MAAYA" , "QUADRANGLE" , "RIYAL" , "PAIN" ,"HACKTOBERFEST", "BUNSAMOSA"]  
     secret_word = random.choice(word_list)
@@ -464,11 +464,11 @@ def sixthscreen():
             displaylabel.config(text=" ".join(display)) 
             if "_" not in display:  
                 messagebox.showinfo("CONGRATS!", "You guessed the word. Now you can read the Letter!")
-                seventhscreen()
+                finalscreen()
 
             if incorrect >= max:  
                 messagebox.showwarning("OOPS!", f"You will never know the contents of the letter! The word was '{secret_word}'.")
-                seventhscreen()
+                finalscreen()
 
             guessdisplay.config(text="Guessed Letters: " + ", ".join(guessed))
             guesslabel.config(text=f"Guess Remaining: {max - incorrect}")
@@ -514,7 +514,7 @@ def sixthscreen():
         skiplabel = Label(SaveMe, text="""You decided to skip this round. :( """, font=("Helvetica", 20), fg="white", bg="#1C1C1E", wraplength=800)
         skiplabel.place(x=100, y=200)
 
-        nextbutton = Button(SaveMe, text="Next", borderwidth=0, highlightthickness=0, command=seventhscreen,
+        nextbutton = Button(SaveMe, text="Next", borderwidth=0, highlightthickness=0, command=finalscreen,
                             bg="#1C1C1E", fg="white", width=10, height=2, font=("Helvetica", 14))
         nextbutton.place(x=450, y=500)
 
@@ -533,17 +533,26 @@ def seventhscreen():
     seven = Label(SaveMe, image=room2Image, background="#1C1C1E", height=1000, width=1000)
     seven.place(x=0, y=0, relwidth=1, relheight=1)
 
-    sevenlabel = Label(SaveMe, text="""*Well you have snakes all around you.(in terms of people as well)
-                     How about we play a game of snakes?*
-                                         
-                     Voice:"Your next QUEST is to feed the snake which is hungry for revenge. 
-                     If you touch any part of itself, it goes back to size 0"
+    sixlabel = Label(SaveMe, text="""*You find a key inside the box and figure out it unlocks a door in this room.
+                     You open the door and you find a letter hanging from the ceiling near a candle. You hear a voice*
                      
-                     Aaron: "Is it sort of a snake game."
+                     Voice:"So you have made it until here. Congrats."
+                     
+                     Voice:"Your next QUEST is to guess the word. 
+                     If you fail to guess it, the letter will burn before you get to read the contents "
+                     
+                     Aaron: "Is it sort of a HANGMAN game."
 
                      Voice: "Smart guess! Now Goodluck." """, font=("Helvetica", 20), fg="white", bg="#1C1C1E", wraplength=800)
-    sevenlabel.place(x=100, y=200) 
+    sixlabel.place(x=100, y=200) 
 
+    word_list = ["HACKNIGHT" , "ACM" , "MAAYA" , "QUADRANGLE" , "RIYAL" , "PAIN" ,"HACKTOBERFEST", "BUNSAMOSA"]  
+    secret_word = random.choice(word_list)
+    secret_word = secret_word.upper()
+    guessed = []
+    incorrect = 0
+    max = 6
+    display = list("_" * len(secret_word))  
 
     def snake_game():
         w = 500
@@ -575,36 +584,34 @@ def seventhscreen():
 
             # Check if snake collides with itself
             if new_head in saap[:-1]:  
-                end_game()  # End the game
-                return  # Exit the hall() function
+                r()  # Restart the game
+            else:
+                saap.append(new_head)
 
-            saap.append(new_head)
+                # Check if snake has eaten food
+                if not khana():
+                    saap.pop(0)  # Remove tail if no food was eaten
 
-            # Check if snake has eaten food
-            if not khana():
-                saap.pop(0)  # Remove tail if no food was eaten
+                # Screen wrapping (snake reappears on the opposite side)
+                if saap[-1][0] > w / 2:
+                    saap[-1][0] -= w
+                elif saap[-1][0] < - w / 2:
+                    saap[-1][0] += w
+                elif saap[-1][1] > h / 2:
+                    saap[-1][1] -= h
+                elif saap[-1][1] < -h / 2:
+                    saap[-1][1] += h
 
-            # Screen wrapping (snake reappears on the opposite side)
-            if saap[-1][0] > w / 2:
-                saap[-1][0] -= w
-            elif saap[-1][0] < - w / 2:
-                saap[-1][0] += w
-            elif saap[-1][1] > h / 2:
-                saap[-1][1] -= h
-            elif saap[-1][1] < -h / 2:
-                saap[-1][1] += h
+                pen.clearstamps()  # Clears all the stamps
 
-            pen.clearstamps()  # Clears all the stamps
+                # Draw the snake
+                for segment in saap:
+                    pen.goto(segment[0], segment[1])
+                    pen.stamp()
 
-            # Draw the snake
-            for segment in saap:
-                pen.goto(segment[0], segment[1])
-                pen.stamp()
+                screen.update()  # Updates the screen
 
-            screen.update()  # Updates the screen
-
-            # Schedule the next movement
-            turtle.ontimer(hall, d)  # Repeats hall() after delay d
+                turtle.ontimer(hall, d)  # Repeats hall() after delay d
 
         def khana():
             global khanaT
@@ -625,21 +632,6 @@ def seventhscreen():
             x2, y2 = poos2
             distance = ((y2 - y1) ** 2 + (x2 - x1) ** 2) ** 0.5
             return distance
-
-        def end_game():
-            """Clear the screen and show game over message."""
-            screen.clear()  # Clear the screen to reset
-            screen.bgcolor("red")  # Change the background color to signify game over
-            screen.title("Game Over")  # Display game over message
-
-            # Display a Game Over message
-            pen.goto(0, 0)
-            pen.write("Game Over! Click anywhere to exit", align="center", font=("Arial", 24, "normal"))
-            turtle.exitonclick()
-
-            # Bind 'r' key to restart the game
-            screen.listen()
-            screen.onkey(r, "r")
 
         # Movement control functions
         def mathi():
@@ -689,12 +681,74 @@ def seventhscreen():
 
         r()  # Start the game
         turtle.done()
-      
+                
+
+    def hangman():
+
+        for widget in SaveMe.winfo_children():
+            widget.place_forget()
+        six.place(x=0, y=0, relwidth=1, relheight=1)
+
+        displaylabel = Label(SaveMe, text=" ".join(display), font=("Helvetica", 40), fg="white", bg="#1C1C1E")
+        displaylabel.place(x=350, y=300)
+
+        guessdisplay = Label(SaveMe, text="Guessed Letters: ", font=("Helvetica", 20), fg="white", bg="#1C1C1E")
+        guessdisplay.place(x=350, y=500)
+
+        guesslabel = Label(SaveMe, text=f"Guess Remaining: {max - incorrect}", font=("Helvetica", 20), fg="white", bg="#1C1C1E")
+        guesslabel.place(x=350, y=550)
+
+        def update():
+            displaylabel.config(text=" ".join(display)) 
+            if "_" not in display:  
+                messagebox.showinfo("CONGRATS!", "You guessed the word. Now you can read the Letter!")
+                finalscreen()
+
+            if incorrect >= max:  
+                messagebox.showwarning("OOPS!", f"You will never know the contents of the letter! The word was '{secret_word}'.")
+                finalscreen()
+
+            guessdisplay.config(text="Guessed Letters: " + ", ".join(guessed))
+            guesslabel.config(text=f"Guess Remaining: {max - incorrect}")
+
+        def guess_letter():
+            nonlocal incorrect
+            try:
+                letter = guessentry.get().upper()  
+                guessentry.delete(0, END)  
+
+                if len(letter) != 1 or not letter.isalpha():
+                    messagebox.showwarning("Invalid", "Enter a single alphabet.")
+                    return
+
+                if letter in guessed:
+                    messagebox.showwarning("Guessed Before", f"You have guessed {letter} before.")
+                    return
+                
+                guessed.append(letter)  
+
+                if letter in secret_word:
+                    for i, char in enumerate(secret_word):
+                        if char == letter:
+                            display[i] = letter 
+                    update()  
+                else:
+                    incorrect += 1 
+                    update()  
+            except Exception:
+                print( f"An error occurred while processing your guess")
+
+        guessentry = Entry(SaveMe, font=("Helvetica", 20), width=5)
+        guessentry.place(x=350, y=400)
+
+        guessbutton = Button(SaveMe, text="Submit", borderwidth=0, highlightthickness=0, 
+                              command=guess_letter, bg="#1C1C1E", fg="white", width=10, height=2, font=("Helvetica", 14))
+        guessbutton.place(x=350, y=450)
 
     def skipp():
         for widget in SaveMe.winfo_children():
             widget.place_forget()
-        seven.place(x=0, y=0, relwidth=1, relheight=1)
+        six.place(x=0, y=0, relwidth=1, relheight=1)
         skiplabel = Label(SaveMe, text="""You decided to skip this round. :( """, font=("Helvetica", 20), fg="white", bg="#1C1C1E", wraplength=800)
         skiplabel.place(x=100, y=200)
 
