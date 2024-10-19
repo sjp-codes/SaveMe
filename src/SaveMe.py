@@ -4,8 +4,12 @@ from tkinter import Tk, Label, Button, Entry, END
 from PIL import Image, ImageTk  
 import tkinter.messagebox as messagebox
 import random
+import pygame
+import threading
 
 # main loop starts here
+pygame.mixer.init()
+
 SaveMe = Tk()
 SaveMe.geometry("1000x1000")
 SaveMe["background"]= "#1C1C1E"
@@ -47,18 +51,30 @@ finalImage = finalImage.resize((1000, 1000), Image.Resampling.LANCZOS)
 finalImage = ImageTk.PhotoImage(finalImage)
 
 #___________________MAIN_______________________________
+def play_sound():
+    pygame.mixer.music.load(os.path.join(basedir, "assets", "start.mp3"))
+    pygame.mixer.music.play(-1)  # Loop the music indefinitely
+
+def stopsound():
+    pygame.mixer.music.stop()
+
 def startscreen():
     # start screen
+    
+    threading.Thread(target=play_sound).start()
     sLabel = Label(SaveMe, image=sImage, background="#1C1C1E", height=1000, width=1000)
-    sLabel.place(x=0, y=0, relwidth=1, relheight=1)  
+    sLabel.place(x=0, y=0, relwidth=1, relheight=1)
+    #sLabel.play1()
     
     sbutton = Button(SaveMe, text="BEGIN!", borderwidth=0, highlightthickness=0, command=firstscreen, 
                      bg="#1C1C1E", fg="white", width=25, height=4, font=("Helvetica", 18))
     sbutton.place(x=350, y=350)
+    #play1()
 
 def firstscreen():
     # the story begins
     for widget in SaveMe.winfo_children():
+        stopsound()
         widget.destroy()
 
     def yes():    
@@ -97,6 +113,7 @@ def firstscreen():
 def secondscreen():
     # visiting the mansion and the initial quest is mentioned
     for widget in SaveMe.winfo_children():
+        stopsound()
         widget.destroy()
 
     def proceed():
@@ -134,6 +151,7 @@ def secondscreen():
 
             
     def quitt():
+        stopsound()
         SaveMe.quit()  
     secLabel = Label(SaveMe, image=hauntedImage, background="#1C1C1E", height=1000, width=1000)
     secLabel.place(x=0, y=0, relwidth=1, relheight=1)  
@@ -157,6 +175,7 @@ def secondscreen():
 def thirdscreen():
     # quest 1 : solve the riddle
     for widget in SaveMe.winfo_children():
+        stopsound()
         widget.destroy()
 
     thiLabel = Label(SaveMe, image=room4Image, background="#1C1C1E", height=1000, width=1000)
@@ -186,6 +205,7 @@ def thirdscreen():
 
     def correct():
         for widget in SaveMe.winfo_children():
+            stopsound()
             widget.place_forget()
 
         correctlabel = Label(SaveMe, text="""You have successfully solved this riddle. The door will open for you now.
@@ -198,6 +218,7 @@ def thirdscreen():
 
     def incorrect():
         for widget in SaveMe.winfo_children():
+            stopsound()
             widget.place_forget()
 
         incorrectlabel = Label(SaveMe, text="""You have failed to solve this riddle.
@@ -220,6 +241,7 @@ def thirdscreen():
 def fourthscreen():
     # quest 2 : rock, paper and scissors
     for widget in SaveMe.winfo_children():
+        stopsound()
         widget.destroy()
     four = Label(SaveMe, image=room2Image, background="#1C1C1E", height=1000, width=1000)
     four.place(x=0, y=0, relwidth=1, relheight=1) 
@@ -247,6 +269,7 @@ def fourthscreen():
 
     def rockpapsci():
         for widget in SaveMe.winfo_children():
+            stopsound()
             widget.place_forget()
         four.place(x=0, y=0, relwidth=1, relheight=1)
 
@@ -274,6 +297,7 @@ def fourthscreen():
         
     def try_Again():
         for widget in SaveMe.winfo_children():
+            stopsound()
             widget.place_forget()
         four.place(x=0, y=0, relwidth=1, relheight=1)
         ta = Label(SaveMe, text="It's a draw! Try again!", font=("Helvetica", 20), fg="white", bg="#1C1C1E")
@@ -292,6 +316,7 @@ def fourthscreen():
 
     def nexxt():
         for widget in SaveMe.winfo_children():
+            stopsound()
             widget.place_forget()
         four.place(x=0, y=0, relwidth=1, relheight=1)
         fourthlabel = Label(SaveMe, text="""Mannequin: You will now proceed towards the next room where you await another Quest 
@@ -304,6 +329,7 @@ def fourthscreen():
 
     def skipp():
         for widget in SaveMe.winfo_children():
+            stopsound()
             widget.place_forget()
         four.place(x=0, y=0, relwidth=1, relheight=1)
         skiplabel = Label(SaveMe, text="""You decided to skip this round. :( """, font=("Helvetica", 20), fg="white", bg="#1C1C1E", wraplength=800)
@@ -324,6 +350,7 @@ def fourthscreen():
 def fifthscreen():
     # quest 3 : bulls and cows
     for widget in SaveMe.winfo_children():
+        stopsound()
         widget.destroy()
     fif = Label(SaveMe, image=room3Image, background="#1C1C1E", height=1000, width=1000)
     fif.place(x=0, y=0, relwidth=1, relheight=1)
@@ -347,6 +374,7 @@ def fifthscreen():
         nonlocal guess, guess_history, code
 
         for widget in SaveMe.winfo_children():
+            stopsound()
             widget.place_forget()
 
         fif.place(x=0, y=0, relwidth=1, relheight=1)
@@ -396,6 +424,7 @@ def fifthscreen():
 
     def skipp():
         for widget in SaveMe.winfo_children():
+            stopsound()
             widget.place_forget()
         fif.place(x=0, y=0, relwidth=1, relheight=1)
         skiplabel = Label(SaveMe, text="""You decided to skip this round. :( """, font=("Helvetica", 20), fg="white", bg="#1C1C1E", wraplength=800)
@@ -420,6 +449,7 @@ def fifthscreen():
 def sixthscreen():
     # quest 4 : hangman
     for widget in SaveMe.winfo_children():
+        stopsound()
         widget.destroy()
     six = Label(SaveMe, image=room1Image, background="#1C1C1E", height=1000, width=1000)
     six.place(x=0, y=0, relwidth=1, relheight=1)
@@ -448,6 +478,7 @@ def sixthscreen():
     def hangman():
 
         for widget in SaveMe.winfo_children():
+            stopsound()
             widget.place_forget()
         six.place(x=0, y=0, relwidth=1, relheight=1)
 
@@ -509,6 +540,7 @@ def sixthscreen():
 
     def skipp():
         for widget in SaveMe.winfo_children():
+            stopsound()
             widget.place_forget()
         six.place(x=0, y=0, relwidth=1, relheight=1)
         skiplabel = Label(SaveMe, text="""You decided to skip this round. :( """, font=("Helvetica", 20), fg="white", bg="#1C1C1E", wraplength=800)
@@ -531,6 +563,7 @@ def sixthscreen():
 def finalscreen():
     # the ending which depends on the number of quests completed.. <2: bad ending , 2-3 : okay ending, >3: good ending
     for widget in SaveMe.winfo_children():
+        stopsound()
         widget.destroy() 
     fLabel = Label(SaveMe, image=finalImage, background="#1C1C1E", height=1000, width=1000)
     fLabel.place(x=0, y=0, relwidth=1, relheight=1) 
