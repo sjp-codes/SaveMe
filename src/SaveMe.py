@@ -11,11 +11,12 @@ SaveMe.geometry("1000x1000")
 SaveMe["background"]= "#1C1C1E"
 SaveMe.title("SaveMe")
 SaveMe.resizable(width=0, height=0)
-basedir = os.getcwd()  
-#____________________IMAGES_______________________
+basedir = os.path.dirname(os.path.abspath(__file__))
+
+#________________IMAGES__________________
 sImage = Image.open(os.path.join(basedir, "assets", "sroom.png"))
-sImage = sImage.resize((1000, 1000), Image.Resampling.LANCZOS)  
-sImage = ImageTk.PhotoImage(sImage)  
+sImage = sImage.resize((1000, 1000), Image.Resampling.LANCZOS)
+sImage = ImageTk.PhotoImage(sImage)
 
 hauntedImage = Image.open(os.path.join(basedir, "assets", "hauntedmansion.png"))
 hauntedImage = hauntedImage.resize((1000, 1000), Image.Resampling.LANCZOS)
@@ -344,7 +345,6 @@ def fifthscreen():
 
     def bullcows():
         nonlocal guess, guess_history, code
-        print(code)  
 
         for widget in SaveMe.winfo_children():
             widget.place_forget()
@@ -437,7 +437,7 @@ def sixthscreen():
                      Voice: "Smart guess! Now Goodluck." """, font=("Helvetica", 20), fg="white", bg="#1C1C1E", wraplength=800)
     sixlabel.place(x=100, y=200) 
 
-    word_list = ["HACKNIGHT" , "ACM" , "MAAYA" , "QUADRANGLE" , "RIYAL" ]  
+    word_list = ["HACKNIGHT" , "ACM" , "MAAYA" , "QUADRANGLE" , "RIYAL" , "PAIN" ,"HACKTOBERFEST", "BUNSAMOSA"]  
     secret_word = random.choice(word_list)
     secret_word = secret_word.upper()
     guessed = []
@@ -446,7 +446,6 @@ def sixthscreen():
     display = list("_" * len(secret_word))  
 
     def hangman():
-        print(secret_word)
 
         for widget in SaveMe.winfo_children():
             widget.place_forget()
